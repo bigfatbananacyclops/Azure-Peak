@@ -3502,6 +3502,7 @@
 #include "code\modules\vehicles\_vehicle.dm"
 #include "code\modules\vehicles\dinghy.dm"
 #include "code\modules\vehicles\ridden.dm"
+#include "code\modules\vehicles\scrap_runabout.dm"
 #include "code\modules\vehicles\vehicle_actions.dm"
 #include "code\modules\vehicles\vehicle_key.dm"
 #include "code\modules\virtues\_virtue.dm"
