@@ -15,7 +15,7 @@
 	name = "6.8×43mm HC casing"
 	desc = "A compact metallic cartridge made for a Meridian automatic rifle."
 	caliber = "6.8x43mm HC"
-	projectile_type = /obj/projectile/bullet/68x43mm
+	projectile_type = /obj/projectile/bullet/c68x43mm
 	click_cooldown_override = 2
 
 /obj/item/ammo_box/magazine/asakura
