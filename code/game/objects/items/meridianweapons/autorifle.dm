@@ -7,7 +7,7 @@
 
 /obj/projectile/bullet/c68x43mm
 	name = "6.8×43mm HC caliber round"
-	damage = 40
+	damage = 30
 	armor_penetration = 10
 	speed = 0.7
 
@@ -27,13 +27,13 @@
 	multiple_sprites = AMMO_BOX_FULL_EMPTY
 
 /obj/item/gun/ballistic/automatic/meridian
-	name = "Asakura HX-77A rifle"
+	name = "Asakura HX-77A"
 	desc = "A compact, magazine-fed automatic rifle of Asakura manufacture."
 	icon_state = "arg"
 	item_state = "arg"
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
-	force = 10
+	force = 15
 
 	// Holding left click repeats the shot every two deciseconds.
 	automatic = 2
