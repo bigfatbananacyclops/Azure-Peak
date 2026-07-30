@@ -5,13 +5,13 @@
  * button is held, /client/MouseDown repeatedly clicks at `automatic` deciseconds.
  */
 
-/obj/projectile/bullet/68x43mm
+/obj/projectile/bullet/c68x43mm
 	name = "6.8×43mm HC caliber round"
 	damage = 40
 	armor_penetration = 10
 	speed = 0.7
 
-/obj/item/ammo_casing/68x43mm
+/obj/item/ammo_casing/c68x43mm
 	name = "6.8×43mm HC casing"
 	desc = "A compact metallic cartridge made for a Meridian automatic rifle."
 	caliber = "6.8x43mm HC"
@@ -21,7 +21,7 @@
 /obj/item/ammo_box/magazine/asakura
 	name = "Asakura HX-77A rifle magazine"
 	desc = "A detachable twenty-round box magazine."
-	ammo_type = /obj/item/ammo_casing/meridian_rifle
+	ammo_type = /obj/item/ammo_casing/c68x43mm
 	caliber = "6.8x43mm HC"
 	max_ammo = 20
 	multiple_sprites = AMMO_BOX_FULL_EMPTY
