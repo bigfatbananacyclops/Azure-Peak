@@ -19,6 +19,10 @@ first revolver
 	projectile_type = /obj/projectile/bullet/c44kron
 	click_cooldown_override = 5
 
+/obj/item/ammo_casing/c44kron/update_icon()
+    . = ..()
+    icon_state = BB ? "44kron-1" : "44kron-0"
+
 /obj/item/ammo_box/magazine/internal/c44kron
 	ammo_type = /obj/item/ammo_casing/c44kron
 	caliber = ".44 Kron"
