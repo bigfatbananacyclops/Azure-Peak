@@ -13,6 +13,8 @@ first revolver
 /obj/item/ammo_casing/c44kron
 	name = ".44 Kron casing"
 	desc = "A compact metallic cartridge made for a Meridian revolver."
+	icon = 'icons/meridian/ammo/ammo.dmi'
+	icon_state = "44kron-1"
 	caliber = ".44 Kron"
 	projectile_type = /obj/projectile/bullet/c44kron
 	click_cooldown_override = 5
@@ -25,12 +27,13 @@ first revolver
 /obj/item/gun/ballistic/revolver/asakura
 	name = "X12 Asakura-Werke Series E"
 	desc = "A compact revolver with electronics manufactured by Asakura-Werke."
-	icon_state = "arg"
-	item_state = "arg"
+	icon = 'icons/meridian/weapons/sidearms.dmi'
+	icon_state = "asakura-werke"
+	//item_state = "arg"
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACKPACK | ITEM_SLOT_HIP
 	force = 10
-	fire_sound = 'sound/blank.ogg'
+	fire_sound = 'sound/meridian/gunshot/asakura-werke.ogg'
 	load_sound = 'sound/blank.ogg'
 	eject_sound = 'sound/blank.ogg'
 	dry_fire_sound = 'sound/blank.ogg'

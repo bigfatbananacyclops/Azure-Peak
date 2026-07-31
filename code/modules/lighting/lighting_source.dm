@@ -333,7 +333,7 @@
 			if(!length(check_above_turfs))
 				break
 			impacted_turfs += check_above_turfs // add them to the impacted
-		
+
 		while(length(check_below_turfs))
 			var/list/turf/below_turfs = SSmapping.get_same_z_turfs_below(check_below_turfs)
 			if(!length(below_turfs))
@@ -345,7 +345,7 @@
 					check_below_turfs += candidate_turf // new transparent turfs to check below
 
 		var/list/cached_corners
-		for(var/turf/impacted_turf as anything in impacted_turfs)		
+		for(var/turf/impacted_turf as anything in impacted_turfs)
 			if (!impacted_turf.lighting_corners_initialised)
 				impacted_turf.generate_missing_corners()
 			cached_corners = impacted_turf.corners
