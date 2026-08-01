@@ -38,9 +38,15 @@ first revolver
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACKPACK | ITEM_SLOT_HIP
 	force = 10
 	fire_sound = 'sound/meridian/gunshot/asakura-werke.ogg'
-	load_sound = 'sound/blank.ogg'
 	eject_sound = 'sound/blank.ogg'
 	dry_fire_sound = 'sound/blank.ogg'
+	load_sound = list(
+		'sound/meridian/gunsounds/revload1.ogg',
+		'sound/meridian/gunsounds/revload2.ogg',
+		'sound/meridian/gunsounds/revload3.ogg',
+		'sound/meridian/gunsounds/revload4.ogg',
+		'sound/meridian/gunsounds/revload5.ogg'
+	)
 
 	mag_type = /obj/item/ammo_box/magazine/internal/c44kron
 	cartridge_wording = "cartridge"

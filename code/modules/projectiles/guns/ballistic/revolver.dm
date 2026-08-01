@@ -2,10 +2,10 @@
 	name = "\improper .357 revolver"
 	desc = "" //usually used by syndicates
 	icon_state = "revolver"
-	fire_sound = 'sound/blank.ogg'
 	load_sound = 'sound/blank.ogg'
+	fire_sound = 'sound/blank.ogg'
 	eject_sound = 'sound/blank.ogg'
-	vary_fire_sound = FALSE
+	vary_fire_sound = TRUE
 	fire_sound_volume = 90
 	dry_fire_sound = 'sound/blank.ogg'
 	casing_ejector = FALSE
@@ -14,6 +14,7 @@
 	tac_reloads = FALSE
 	var/spin_delay = 10
 	var/recent_spin = 0
+
 
 /obj/item/gun/ballistic/revolver/chamber_round(spin_cylinder = TRUE)
 	if(spin_cylinder)
