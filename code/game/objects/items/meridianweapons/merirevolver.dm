@@ -11,8 +11,8 @@ first revolver
 	armor_penetration = 10
 	speed = 0.7
 /obj/item/ammo_casing/c44kron
-	name = ".44 Kron casing"
-	desc = "A compact metallic cartridge made for a Meridian revolver."
+	name = ".44 Kron round"
+	desc = "A compact metallic cartridge made for an Asakura revolver."
 	icon = 'icons/meridian/ammo/ammo.dmi'
 	icon_state = "44kron-1"
 	caliber = ".44 Kron"
@@ -20,8 +20,16 @@ first revolver
 	click_cooldown_override = 5
 
 /obj/item/ammo_casing/c44kron/update_icon()
-    . = ..()
-    icon_state = BB ? "44kron-1" : "44kron-0"
+	.=..()
+	if(BB)
+		name = ".44 Kron round"
+		desc = "A compact metallic cartridge made for an Asakura revolver."
+		icon_state = "44kron-1"
+	else
+		name = "spent .44 Kron casing"
+		desc = "An empty metallic casing from a fired .44 Kron round."
+		icon_state = "44kron-0"
+
 
 /obj/item/ammo_box/magazine/internal/c44kron
 	ammo_type = /obj/item/ammo_casing/c44kron

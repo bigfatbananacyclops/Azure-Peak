@@ -14,6 +14,8 @@
 	tac_reloads = FALSE
 	var/spin_delay = 10
 	var/recent_spin = 0
+	var/has_openable_cylinder = FALSE
+	var/cylinder_open = FALSE
 
 
 /obj/item/gun/ballistic/revolver/chamber_round(spin_cylinder = TRUE)
@@ -33,3 +35,5 @@
 	if (magazine)
 		boolets += magazine.ammo_count(countempties)
 	return boolets
+
+
