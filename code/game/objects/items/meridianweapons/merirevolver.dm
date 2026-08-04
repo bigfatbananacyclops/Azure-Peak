@@ -48,6 +48,9 @@ first revolver
 	fire_sound = 'sound/meridian/gunshot/asakura-werke.ogg'
 	eject_sound = 'sound/meridian/gunsounds/rev_eject_sound.ogg'
 	dry_fire_sound = 'sound/meridian/gunsounds/rev_dryfire.ogg'
+	cylinder_open_sound = 'sound/meridian/gunsounds/revopen.ogg'
+	cylinder_close_sound = 'sound/meridian/gunsounds/revclose.ogg'
+	cylinder_spin_sound = 'sound/meridian/gunsounds/revspin.ogg'
 	load_sound = list(
 		'sound/meridian/gunsounds/revload1.ogg',
 		'sound/meridian/gunsounds/revload2.ogg',
@@ -58,3 +61,4 @@ first revolver
 
 	mag_type = /obj/item/ammo_box/magazine/internal/c44kron
 	cartridge_wording = "cartridge"
+	has_openable_cylinder = TRUE
