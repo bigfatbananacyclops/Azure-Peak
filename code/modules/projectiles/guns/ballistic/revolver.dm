@@ -87,12 +87,33 @@
 	for(var/i in 1 to rotations)
 		chamber_round(TRUE)
 
-// right click revolver spin
-/obj/item/gun/ballistic/revolver/AltClick(mob/user)
+/obj/item/gun/ballistic/revolver/proc/unload_cylinder(mob/user)
+	chambered = null
+	var/num_unloaded = 0
+	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
+		CB.forceMove(drop_location())
+		CB.bounce_away(FALSE, NONE)
+		num_unloaded++
+		var/turf/T = get_turf(drop_location())
+		if(T && is_station_level(T.z))
+			SSblackbox.record_feedback("tally", "station_mess_created", 1, CB.name)
+	if(num_unloaded)
+		to_chat(user, span_notice("I remove [(num_unloaded == 1) ? "the" : "[num_unloaded]"] [cartridge_wording]\s from [src]."))
+		playsound(user, eject_sound, eject_sound_volume, eject_sound_vary)
+		update_icon()
+	else
+		to_chat(user, span_warning("[src] is empty!"))
+
+// Right-click spins a closed cylinder and unloads an open cylinder.
+/obj/item/gun/ballistic/revolver/attack_right(mob/user)
 	if(!has_openable_cylinder)
 		return ..()
 
 	if(!user.is_holding(src))
+		return TRUE
+
+	if(cylinder_open)
+		unload_cylinder(user)
 		return TRUE
 
 	if(recent_spin > world.time)
@@ -107,5 +128,4 @@
 	)
 	playsound(src, cylinder_spin_sound, cylinder_sound_volume, TRUE)
 	return TRUE
-
 
