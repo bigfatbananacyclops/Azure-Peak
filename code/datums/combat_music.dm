@@ -162,6 +162,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Combt Classic"
 	musicpath = list('sound/music/combat.ogg')
 
+/datum/combat_music/meridian_1
+	name = "Meridian"
+	desc = ""
+	shortname = "The Meridian"
+	credits = "Hans Zimmer - Blade Runner"
+	musicpath = list('sound/meridian/combatsongs/meridiancombatsong1.ogg')
+
 /* Unused
 /datum/combat_music/combat_old_2
 	name = "Combat Old 2"
@@ -282,9 +289,9 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 /datum/combat_music/inquis_ordinator
 	name = "Inquisitor ('Ordinator' Mix)"
 	desc = ""
-	shortname = "Inq. Ordinator" 
+	shortname = "Inq. Ordinator"
 	musicpath = list('sound/music/combat_inqordinator.ogg')
-	
+
 /datum/combat_music/inquis_commander
 	name = "Inquisitor ('Commander' Mix)"
 	desc = "One last parlay at the end of the world. Finish the fight, no matter the odds."

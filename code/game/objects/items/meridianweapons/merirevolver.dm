@@ -45,7 +45,9 @@ first revolver
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACKPACK | ITEM_SLOT_HIP
 	force = 10
+	recoil = 1
 	fire_sound = 'sound/meridian/gunshot/asakurashot.ogg'
+	fire_sound_volume = 100
 	eject_sound = 'sound/meridian/gunsounds/rev_eject_sound.ogg'
 	dry_fire_sound = 'sound/meridian/gunsounds/rev_dryfire.ogg'
 	cylinder_open_sound = 'sound/meridian/gunsounds/revopen.ogg'

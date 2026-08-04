@@ -77,6 +77,8 @@
 
 	return ..()
 
+
+
 /obj/item/gun/ballistic/revolver/proc/spin_cylinder() //randomizes bullet order
 	if(!magazine || !magazine.stored_ammo.len)
 		chambered = null
@@ -86,6 +88,8 @@
 
 	for(var/i in 1 to rotations)
 		chamber_round(TRUE)
+
+
 
 /obj/item/gun/ballistic/revolver/proc/unload_cylinder(mob/user)
 	chambered = null
@@ -104,7 +108,9 @@
 	else
 		to_chat(user, span_warning("[src] is empty!"))
 
-// Right-click spins a closed cylinder and unloads an open cylinder.
+
+
+// Right-click from empty hand spins a closed cylinder and unloads an open cylinder.
 /obj/item/gun/ballistic/revolver/attack_right(mob/user)
 	if(!has_openable_cylinder)
 		return ..()
@@ -129,3 +135,31 @@
 	playsound(src, cylinder_spin_sound, cylinder_sound_volume, TRUE)
 	return TRUE
 
+//override for rightclick?
+/obj/item/gun/ballistic/revolver/rmb_self(mob/user)
+	return attack_right(user)
+
+
+
+// left clicking with empty hand to remove single bullet
+/obj/item/gun/ballistic/revolver/attack_hand(mob/user)
+	if(!has_openable_cylinder || !cylinder_open || !user.is_holding(src))
+		return ..()
+
+	var/obj/item/ammo_casing/round = magazine?.get_round()
+	if(!round)
+		to_chat(user, span_warning("[src] is empty!"))
+		return TRUE
+
+	if(chambered == round)
+		chambered = null
+
+	round.forceMove(user)
+	if(!user.put_in_active_hand(round))
+		round.forceMove(drop_location())
+		round.bounce_away(FALSE, NONE)
+
+	to_chat(user, span_notice("I remove [round] from [src]."))
+	playsound(user, eject_sound, eject_sound_volume, eject_sound_vary)
+	update_icon()
+	return TRUE
