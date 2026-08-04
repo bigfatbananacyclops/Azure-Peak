@@ -84,6 +84,9 @@
 	var/tracer_type
 	var/muzzle_type
 	var/impact_type
+	// Optional cosmetic hitscan bullet system; remove these vars and the matching generation block below to remove it.
+	var/hitscan_projectile_effect
+	var/hitscan_projectile_effect_duration = 2
 
 	//Fancy hitscan lighting effects!
 	var/hitscan_light_intensity = 1.5
@@ -865,6 +868,32 @@
 		var/tempref = REF(src)
 		for(var/datum/point/p in beam_segments)
 			generate_tracer_between_points(p, beam_segments[p], tracer_type, color, duration, hitscan_light_range, hitscan_light_color_override, hitscan_light_intensity, tempref)
+	// Cosmetic hitscan bullet generation block; safe to remove together with the two vars above.
+	if(hitscan_projectile_effect && hitscan_projectile_effect_duration > 0)
+		for(var/datum/point/start_point in beam_segments)
+			var/datum/point/end_point = beam_segments[start_point]
+			if(!end_point)
+				continue
+
+			var/obj/effect/temp_visual/shot_visual = new hitscan_projectile_effect
+			start_point.move_atom_to_src(shot_visual)
+
+			var/matrix/shot_transform = new
+			shot_transform.Turn(angle_between_points(start_point, end_point))
+			shot_visual.transform = shot_transform
+
+			if(color)
+				shot_visual.color = color
+
+			animate(
+				shot_visual,
+				pixel_x = shot_visual.pixel_x + end_point.x - start_point.x,
+				pixel_y = shot_visual.pixel_y + end_point.y - start_point.y,
+				time = hitscan_projectile_effect_duration,
+				easing = LINEAR_EASING
+			)
+
+			QDEL_IN(shot_visual, hitscan_projectile_effect_duration + 1) // ends here the visual effect
 	if(muzzle_type && duration > 0)
 		var/datum/point/p = beam_segments[1]
 		var/atom/movable/thing = new muzzle_type

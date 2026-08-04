@@ -7,9 +7,23 @@ first revolver
 
 /obj/projectile/bullet/c44kron
 	name = ".44 Kron caliber round"
-	damage = 40
+	damage = 80
 	armor_penetration = 10
-	speed = 0.7
+	hitscan = TRUE
+	muzzle_type = /obj/effect/projectile/muzzle/asakura
+	hitscan_projectile_effect = /obj/effect/temp_visual/asakura_bullet
+	hitscan_projectile_effect_duration = 3
+
+/obj/effect/projectile/muzzle/asakura
+	icon_state = "asakura-shot"
+
+// Cosmetic hitscan bullet only; remove this type and the two hitscan_projectile_effect vars above to disable it.
+/obj/effect/temp_visual/asakura_bullet
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "kron"
+	duration = 4
+	randomdir = FALSE
+
 /obj/item/ammo_casing/c44kron
 	name = ".44 Kron round"
 	desc = "A compact metallic cartridge made for an Asakura revolver."
@@ -65,6 +79,15 @@ first revolver
 	cartridge_wording = "cartridge"
 	has_openable_cylinder = TRUE
 
+
+
+// light effect
+/obj/item/gun/ballistic/revolver/asakura/shoot_live_shot(mob/living/user, pointblank = 0, mob/pbtarget = null, message = TRUE)
+	. = ..()
+	new /obj/effect/dummy/lighting_obj(get_turf(user), "#ff8a65", 3, 3, 6)
+
+
+// cylinder icon update
 /obj/item/gun/ballistic/revolver/asakura/update_icon()
 	. = ..()
 	icon_state = cylinder_open ? "asakura-werke-open" : "asakura-werke"
