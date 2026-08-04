@@ -45,7 +45,7 @@ first revolver
 	w_class = WEIGHT_CLASS_NORMAL
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACKPACK | ITEM_SLOT_HIP
 	force = 10
-	fire_sound = 'sound/meridian/gunshot/asakura-werke.ogg'
+	fire_sound = 'sound/meridian/gunshot/asakurashot.ogg'
 	eject_sound = 'sound/meridian/gunsounds/rev_eject_sound.ogg'
 	dry_fire_sound = 'sound/meridian/gunsounds/rev_dryfire.ogg'
 	cylinder_open_sound = 'sound/meridian/gunsounds/revopen.ogg'
@@ -62,3 +62,7 @@ first revolver
 	mag_type = /obj/item/ammo_box/magazine/internal/c44kron
 	cartridge_wording = "cartridge"
 	has_openable_cylinder = TRUE
+
+/obj/item/gun/ballistic/revolver/asakura/update_icon()
+	. = ..()
+	icon_state = cylinder_open ? "asakura-werke-open" : "asakura-werke"
