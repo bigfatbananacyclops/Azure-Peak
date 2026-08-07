@@ -7,6 +7,12 @@
 	throwforce = 0
 	w_class = WEIGHT_CLASS_TINY
 
+	var/bullet_stack_amount = 0                 //How many bullets you can stack of this caliber
+	var/bullet_stack_icon_prefix                //Icon state prefix change
+	var/bullet_stack_add_sound = 'sound/foley/coinphy (1).ogg'
+	var/bullet_stack_remove_sound = 'sound/foley/coinphy (1).ogg'
+	var/bullet_stack_spill_sound = 'sound/foley/coinphy (1).ogg'
+
 	var/fire_sound = null						//What sound should play when this ammo is fired
 	var/caliber = null							//Which kind of guns it can be loaded into
 	var/projectile_type = null					//The bullet type to create when New() is called
@@ -24,6 +30,111 @@
 /obj/item/ammo_casing/spent
 	name = "spent bullet casing"
 	BB = null
+
+/obj/item/ammo_stack
+	name = "ammunition stack"
+	desc = "A small stack of ammunition rounds."
+	w_class = WEIGHT_CLASS_TINY
+	drop_sound = null
+	pickup_sound = null
+
+	var/amount = 2
+	var/obj/item/ammo_casing/ammo_type
+
+/obj/item/ammo_stack/proc/update_stack()
+	var/max_amount = get_max_stack_amount()
+	amount = clamp(amount, 2, max_amount)
+
+	icon = initial(ammo_type.icon)
+	icon_state = "[initial(ammo_type.bullet_stack_icon_prefix)]-[amount]"
+	name = "[amount] [initial(ammo_type.name)]\s"
+
+// get method for max_stack_amount
+/obj/item/ammo_stack/proc/get_max_stack_amount()
+	return initial(ammo_type.bullet_stack_amount)
+
+// add one individual round to stack
+/obj/item/ammo_stack/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/ammo_casing))
+		var/obj/item/ammo_casing/round = I
+
+		// only accept exact ammo type that also arent casings
+		if(round.type != ammo_type)
+			return ..()
+
+		if(!round.BB)
+			to_chat(user, span_warning("This one is already spent."))
+			return TRUE
+
+		if(amount >= get_max_stack_amount())
+			to_chat(user, span_warning("You cannot hold any more rounds in your hand."))
+			return TRUE
+
+		//// The round is being consumed, so clear it from the active hand.
+		if(!user.temporarilyRemoveItemFromInventory(round))
+			return TRUE
+
+		qdel(round)
+		amount++
+		update_stack()
+
+		playsound(
+			src,
+			initial(ammo_type.bullet_stack_add_sound),
+			60,
+			TRUE
+		)
+		return TRUE
+
+	// combine another ammo stack with this one.
+	if(istype(I, /obj/item/ammo_stack))
+		var/obj/item/ammo_stack/other_stack = I
+
+		// dont combine different calibers
+		if(other_stack.ammo_type != ammo_type)
+			return ..()
+
+		var/available_space = get_max_stack_amount() - amount
+
+		if(available_space <= 0)
+			to_chat(user, span_warning("You cannot hold any more rounds!"))
+			return TRUE
+
+		var/transfer_amount = min(available_space, other_stack.amount) // how many bullets you can transfer from your other stack.
+		var/remaining_amount = other_stack.amount - transfer_amount // other stacks new state.
+
+		// If the other stack will disappear or become one round,
+		// clear it from the active hand before deleting it.
+		if(remaining_amount <= 1)
+			if(!user.temporarilyRemoveItemFromInventory(other_stack))
+				return TRUE
+
+		amount += transfer_amount
+		other_stack.amount = remaining_amount
+		update_stack()
+
+		if(other_stack.amount <= 0)
+			qdel(other_stack)
+
+		else if(other_stack.amount == 1) // if other stack remains becomes 1, erase stack, make singular
+			var/obj/item/ammo_casing/remaining_round = new ammo_type(user)
+			qdel(other_stack)
+
+			if(!user.put_in_active_hand(remaining_round))
+				remaining_round.forceMove(user.drop_location())
+
+		else
+			other_stack.update_stack()
+
+		playsound(
+			src,
+			initial(ammo_type.bullet_stack_add_sound),
+			60,
+			TRUE
+		)
+		return TRUE
+
+	return ..()
 
 /obj/item/ammo_casing/Initialize()
 	. = ..()
@@ -51,6 +162,46 @@
 		BB = new projectile_type(src, src)
 
 /obj/item/ammo_casing/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/ammo_casing))
+		var/obj/item/ammo_casing/other_round = I
+
+		// values below disable stacking for this caliber
+		if(bullet_stack_amount < 2)
+			return ..()
+
+		//only stack the same ammo subtype
+		if(other_round.type != type)
+			return ..()
+
+		// both cartridges must be lives.
+		if(!BB || !other_round.BB)
+			return ..()
+
+		var/obj/item/ammo_stack/new_stack = new(drop_location())
+		new_stack.ammo_type = type
+		new_stack.amount = 2
+		new_stack.update_stack()
+
+		// Remove the attacking round from the active hand before deleting it.
+		if(!user.temporarilyRemoveItemFromInventory(other_round))
+			qdel(new_stack)
+			return TRUE
+
+		qdel(other_round)
+		qdel(src)
+
+		// Put the newly created stack into the now-empty active hand.
+		if(!user.put_in_active_hand(new_stack))
+			new_stack.forceMove(user.drop_location())
+
+		playsound(
+			user,
+			initial(new_stack.ammo_type.bullet_stack_add_sound),
+			60,
+			TRUE
+		)
+		return TRUE
+
 	if(istype(I, /obj/item/ammo_box))
 		var/obj/item/ammo_box/box = I
 		if(isturf(loc))

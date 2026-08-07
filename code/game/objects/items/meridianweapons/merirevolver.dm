@@ -32,6 +32,13 @@ first revolver
 	caliber = ".44 Kron"
 	projectile_type = /obj/projectile/bullet/c44kron
 	click_cooldown_override = 5
+	pickup_sound = null // silences that stupid pickup sound when drawing bullets
+
+	bullet_stack_amount = 6
+	bullet_stack_icon_prefix = "44kron-stack"
+	bullet_stack_add_sound = 'sound/meridian/gunsounds/bullet_stack_add.ogg'
+	bullet_stack_remove_sound = 'sound/meridian/gunsounds/bullet_stack_remove.ogg'
+	bullet_stack_spill_sound = 'sound/meridian/gunsounds/bullet_stack_spill.ogg'
 
 /obj/item/ammo_casing/c44kron/update_icon()
 	.=..()
