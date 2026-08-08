@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscdel: "Mimics revealing themselves or being attacked no longer forces all characters in a 4-tile radius to scream and freak out."
